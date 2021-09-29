@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -17,6 +18,9 @@ class IndexControllerTest extends WebTestCase
         $client = static::createClient();
         $userRepository = static::getContainer()->get(UserRepository::class);
         $em = static::getContainer()->get('doctrine')->getManager();
+
+        $purger = new ORMPurger($em);
+        $purger->purge();
 
         $user1 = new User();
         $user1->setFirstname('Toto');
